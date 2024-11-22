@@ -5,22 +5,19 @@ services:
     build: .
     restart: always
     ports:
-      - "9091:9091"  # Porta diferente para evitar conflito com a primeira aplicação
+      - "9091:9091"
     environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/task  # Conectando ao db da primeira aplicação
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/task  # Banco de dados do outro docker-compose
       SPRING_DATASOURCE_USERNAME: task
       SPRING_DATASOURCE_PASSWORD: task
-      SPRING_KAFKA_BOOTSTRAP-SERVERS: kafka:29092  # Conectando ao Kafka da primeira aplicação
-    depends_on:
-      - kafka  # A segunda aplicação depende do Kafka
-      - kafdrop  # A segunda aplicação depende do Kafdrop
-      - zookeeper  # A segunda aplicação depende do Zookeeper
+      SPRING_KAFKA_BOOTSTRAP-SERVERS: kafka:29092
     networks:
-      - app-network  # Rede compartilhada com a primeira aplicação
-      - broker-kafka  # Rede Kafka compartilhada com a primeira aplicação
+      - task-producer_broker-kafka  # Rede Kafka compartilhada
+      - app-network  # Rede do banco de dados compartilhada
 
 networks:
+  task-producer_broker-kafka:
+    external: true  # Rede externa compartilhada para Kafka
+
   app-network:
-    external: true  # Usando rede externa para compartilhar com a primeira aplicação
-  broker-kafka:
-    external: true  # Usando rede Kafka compartilhada com a primeira aplicação
+    external: true  # Rede externa compartilhada para o banco de dados
