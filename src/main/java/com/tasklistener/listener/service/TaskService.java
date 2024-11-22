@@ -19,4 +19,13 @@ public class TaskService {
         Task task = objectMapper.readValue(message, Task.class);
         taskRepository.save(task);
     }
+
+    public void updateTask(String message) throws JsonProcessingException {
+        Task task = objectMapper.readValue(message, Task.class);
+        taskRepository.save(task);
+    }
+
+    public void deleteUser(Integer integer) {
+        taskRepository.deleteById(integer);
+    }
 }

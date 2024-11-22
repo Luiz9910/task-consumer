@@ -30,14 +30,12 @@ public class Task implements Serializable {
     private String description;
 
     @Column(name = "tp_status", nullable = false, length = 1)
-    private char status;
+    private String status;
 
     @Column(name = "dt_created", nullable = false)
-    @Temporal(TemporalType.DATE)
     private Date createdDate;
 
     @Column(name = "dt_limit")
-    @Temporal(TemporalType.DATE)
     private Date limitDate;
 
     @Column(name = "cd_user")

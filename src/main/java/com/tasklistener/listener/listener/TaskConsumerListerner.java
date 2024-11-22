@@ -18,4 +18,16 @@ public class TaskConsumerListerner {
         taskService.createTask(message);
         log.info("Create ::: Task criada com sucesso");
     }
+
+    @TaskConsumerCustom(groupId = "group-1", topics = "taskUpdate-topic")
+    public void updateTask(String message) throws JsonProcessingException {
+        taskService.updateTask(message);
+        log.info("Update ::: Task atualizada com sucesso");
+    }
+
+    @TaskConsumerCustom(groupId = "group-1", topics = "taskDelete-topic")
+    public void deleteTask(String message) {
+        taskService.deleteUser(Integer.valueOf(message));
+        log.info("Delete ::: Task deletada com sucesso");
+    }
 }
